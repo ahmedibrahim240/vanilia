@@ -138,6 +138,35 @@ class _LogInState extends State<LogIn> {
                             text: getTranslated(context, 'Entry'),
                           ),
                           SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                getTranslated(context, 'forget'),
+                                style: AppTheme.heading.copyWith(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  // Navigator.of(context).push(
+                                  //   MaterialPageRoute(
+                                  //     builder: (_) => PasswordRecovery(),
+                                  //   ),
+                                  // );
+                                },
+                                child: Text(
+                                  getTranslated(context, 'password?'),
+                                  style: AppTheme.heading.copyWith(
+                                    color: Colors.white,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 12),
                           Text(
                             error,
                             style:
@@ -193,35 +222,6 @@ class _LogInState extends State<LogIn> {
                             ],
                           ),
                           SizedBox(height: 20),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                getTranslated(context, 'forget'),
-                                style: AppTheme.heading.copyWith(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  // Navigator.of(context).push(
-                                  //   MaterialPageRoute(
-                                  //     builder: (_) => PasswordRecovery(),
-                                  //   ),
-                                  // );
-                                },
-                                child: Text(
-                                  getTranslated(context, 'password?'),
-                                  style: AppTheme.heading.copyWith(
-                                    color: Colors.white,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: height * .15),
                           Column(
                             children: [
                               Row(

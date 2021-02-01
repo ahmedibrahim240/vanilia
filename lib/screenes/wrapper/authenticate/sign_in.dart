@@ -251,6 +251,27 @@ class _SignInState extends State<SignIn> {
                             text: getTranslated(context, 'Sing_up'),
                           ),
                           SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                getTranslated(context, 'have_account'),
+                                style: AppTheme.heading.copyWith(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () => widget.toggleView(),
+                                child: Text(
+                                  getTranslated(context, 'Entry'),
+                                  style: AppTheme.heading.copyWith(
+                                    color: Colors.white,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                           Text(
                             error,
                             style: AppTheme.heading.copyWith(
@@ -327,28 +348,6 @@ class _SignInState extends State<SignIn> {
                                       AssetImage('lib/images/facebock.png'),
                                 ),
                                 onTap: () {},
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: height * .10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                getTranslated(context, 'have_account'),
-                                style: AppTheme.heading.copyWith(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () => widget.toggleView(),
-                                child: Text(
-                                  getTranslated(context, 'Entry'),
-                                  style: AppTheme.heading.copyWith(
-                                    color: Colors.white,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
                               ),
                             ],
                           ),

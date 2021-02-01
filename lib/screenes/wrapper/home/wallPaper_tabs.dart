@@ -18,16 +18,18 @@ class _WallPaperTabsState extends State<WallPaperTabs> {
         child: CustomTabView(
           initPosition: initPosition,
           itemCount: dataList.length,
-          tabBuilder: (context, index) => Tab(
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  dataList[index].title,
-                  style: TextStyle(
-                    fontFamily: 'Cairo',
-                    fontSize: 11,
+          tabBuilder: (context, index) => Container(
+            height: 30,
+            child: Tab(
+              child: Container(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    dataList[index].title,
+                    style: TextStyle(
+                      fontFamily: 'Cairo',
+                      fontSize: 11,
+                    ),
                   ),
                 ),
               ),
@@ -39,10 +41,10 @@ class _WallPaperTabsState extends State<WallPaperTabs> {
               child: StaggeredGridView.countBuilder(
                 crossAxisCount: 4,
                 primary: false,
-                itemCount: 20,
+                itemCount: 12,
                 itemBuilder: (BuildContext context, int i) {
                   return Padding(
-                    padding: const EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(0),
                     child: InkWell(
                       onTap: () {
                         Navigator.of(context).push(
@@ -55,7 +57,6 @@ class _WallPaperTabsState extends State<WallPaperTabs> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
                           image: DecorationImage(
                             image: NetworkImage(dataList[index].imgeList[i]),
                             fit: BoxFit.cover,
@@ -68,10 +69,6 @@ class _WallPaperTabsState extends State<WallPaperTabs> {
                             width: (MediaQuery.of(context).size.width) * .5,
                             decoration: BoxDecoration(
                               color: Colors.black.withOpacity(.4),
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10),
-                              ),
                             ),
                             child: Center(
                               child: Text(
@@ -88,7 +85,7 @@ class _WallPaperTabsState extends State<WallPaperTabs> {
                   );
                 },
                 staggeredTileBuilder: (int index) =>
-                    new StaggeredTile.count(2, index.isEven ? 2.5 : 1.4),
+                    new StaggeredTile.count(2, index.isEven ? 1.8 : 1.4),
                 mainAxisSpacing: 4.0,
                 crossAxisSpacing: 4.0,
               ),
