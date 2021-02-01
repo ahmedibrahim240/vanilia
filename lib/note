@@ -1,0 +1,494 @@
+Future addNewCard(String card_name, String person_name, String card_num,
+    File front_image, File back_image, String jwt) async {
+  String fileName = front_image.path.split('/').last;
+  String fileName1 = back_image.path.split('/').last;
+
+  FormData formData = FormData.fromMap({
+    "front_image":
+        await MultipartFile.fromFile(front_image.path, filename: fileName),
+    "back_image":
+        await MultipartFile.fromFile(back_image.path, filename: fileName),
+    "card_num": card_num,
+    "person_name": person_name,
+    "card_name": card_name,
+  });
+  var data;
+
+  await dio
+      .post("${host}/loyalty_cards/store",
+          data: formData,
+          options: Options(
+            headers: {"Authorization": "Bearer $jwt"},
+            followRedirects: false,
+            validateStatus: (status) {
+              return status < 500;
+            },
+          ))
+      .then((response) {
+    data = response.data;
+  });
+  return data;
+}
+_____________________________________________________________________________________________________________
+// var _image;
+    // Future getImage() async {
+    //   // ignore: deprecated_member_use
+    //   var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    //   setState(() {
+    //     _image = image;
+    //   });
+    // }
+
+    // Future uploadImage(BuildContext context) async {
+    //   String flileName = basename(_image.path);
+    //   StorageReference storageRefernece =
+    //       FirebaseStorage.instance.ref().child(flileName);
+    //   StorageUploadTask uploadTask = storageRefernece.putFile(_image);
+    //   // ignore: unused_local_variable
+    //   StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+    //   setState(() {
+    //     Scaffold.of(context).showSnackBar(SnackBar(
+    //       content: Text('تم الحفظ'),
+    //     ));
+    //   });
+    // }
+_____________________________________________________________________________________________________________
+  Column(
+  children: [
+  CircleAvatar(
+    radius: 55,
+    backgroundColor: Colors.white,
+    child: ClipOval(
+      child: SizedBox(
+        height: 105,
+        width: 105,
+        child: (_image != null)
+            ? Image.file(_image, fit: BoxFit.fill)
+            : Image.network(
+                'https:www.pinclipart.com/picdir/big/91-919500_individuals-user-vector-icon-png-clipart.png',
+                fit: BoxFit.fill,
+              ),
+      ),
+    ),
+  ),
+  Row(
+    children: [
+      Icon(Icons.camera),
+      FlatButton(
+        child: Text(
+          (isEidt)
+              ? getTranslated(context, 'edit')
+              : getTranslated(context, 'save'),
+          style: AppTheme.heading,
+        ),
+        onPressed: () {
+          if (isEidt == true) {
+            setState(() {
+              isEidt = !isEidt;
+            });
+            getImage();
+          }
+          if (isEidt == false) {
+            setState(
+              () {
+                isEidt = !isEidt;
+              },
+            );
+            uploadImage(context);
+          }
+        },
+      ),
+    ],
+  ),
+  ],
+  ),
+_____________________________________________________________________________________________________________
+class UserSearch extends StatefulWidget {
+  @override
+  _UserSearchState createState() => _UserSearchState();
+}
+
+class _UserSearchState extends State<UserSearch> {
+  TextEditingController controller = TextEditingController();
+  DatabaseServices _databaseServices = DatabaseServices();
+  bool isempty = false;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: customAppBar(
+        Container(
+          child: Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  controller: controller,
+                  style: TextStyle(color: Colors.black),
+                  decoration: InputDecoration(
+                    errorStyle: AppTheme.subHeading.copyWith(
+                      color: Colors.white,
+                    ),
+                    hintText: 'بحث...',
+                    hintStyle: AppTheme.heading.copyWith(
+                      fontSize: 10,
+                    ),
+                    fillColor: Colors.white,
+                    filled: true,
+                    isDense: true,
+                    contentPadding: EdgeInsets.all(10),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(
+                        style: BorderStyle.solid,
+                        color: Color(0xfff880e4f),
+                      ),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.clear),
+                      onPressed: () {
+                        setState(() {
+                          controller.text = '';
+                        });
+                      },
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(
+                        style: BorderStyle.solid,
+                        color: Color(0xfff880e4f),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: 5),
+              GestureDetector(
+                onTap: () {
+                  search();
+                },
+                child: Container(
+                  height: 40,
+                  width: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(40),
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.black38,
+                        Color(0x36ffffff),
+                      ],
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        80,
+      ),
+      body: listOfUsers(),
+    );
+  }
+
+  QuerySnapshot _snapshot;
+
+  search() {
+    (controller.text == UserData.name)
+        ? print('')
+        : _databaseServices.getUserByUserName(controller.text).then(
+            (val) {
+              setState(() {
+                _snapshot = val;
+              });
+            },
+          );
+  }
+
+  Widget listOfUsers() {
+    return _snapshot != null
+        ? ListView.builder(
+            itemCount: _snapshot.documents.length,
+            itemBuilder: (context, index) {
+              return UserListTile(
+                userName: _snapshot.documents[index].data['name'],
+                userEmail: _snapshot.documents[index].data['email'],
+              );
+            },
+          )
+        : Container(
+            child: Center(
+              child: Text('لم يتم العصور علي ${controller.text}'),
+            ),
+          );
+  }
+}
+_____________________________________________________________________________________________________________
+SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Container(
+                height: 200,
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Builder(
+                        builder: (context) => Container(
+                          height: 125,
+                          child: Center(
+                            child: customAppBar(
+                              Text(
+                                getTranslated(context, 'About_app'),
+                                style: AppTheme.heading.copyWith(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              80,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 65,
+                      right: (width * .4) - 15,
+                      child: Stack(
+                        children: [
+                          Hero(
+                            tag: 'userImg',
+                            child: Container(
+                              height: width * .3,
+                              width: width * .3,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    UserData.userImageUrl,
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    spreadRadius: 2,
+                                    blurRadius: 10,
+                                    color: Colors.black.withOpacity(0.1),
+                                    offset: Offset(0, 10),
+                                  ),
+                                ],
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 4,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                height: 35,
+                                width: 35,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: customColor,
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Icon(
+                                  Icons.edit,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: TextFormFiledSetting(
+                        initialValue: UserData.name,
+                        onTap: () {},
+                        isreadOnly: true,
+                        obscureText: false,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: TextFormFiledSetting(
+                        initialValue: UserData.pasword,
+                        onTap: () {},
+                        isreadOnly: true,
+                        obscureText: true,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: TextFormFiledSetting(
+                        initialValue: UserData.email,
+                        onTap: () {},
+                        isreadOnly: true,
+                        obscureText: false,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      height: 50,
+                      width: width,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            getTranslated(context, 'language'),
+                            style: AppTheme.heading,
+                          ),
+                          DropdownButton<Language>(
+                            dropdownColor: Colors.white,
+                            underline: SizedBox(),
+                            icon: Icon(
+                              Icons.language,
+                              color: Colors.lightBlueAccent,
+                            ),
+                            onChanged: (Language language) {
+                              _changeLanguage(language);
+                            },
+                            items: Language.languageList()
+                                .map<DropdownMenuItem<Language>>(
+                                  (e) => DropdownMenuItem<Language>(
+                                    value: e,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: <Widget>[
+                                        Text(
+                                          e.flag,
+                                          style: TextStyle(fontSize: 30),
+                                        ),
+                                        Text(e.name)
+                                      ],
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    InkWell(
+                      onTap: () async {
+                        await _auth.signOut();
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (_) => Authenticate(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 50,
+                        width: width,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          getTranslated(context, 'sign_out'),
+                          style: AppTheme.heading,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+
+      _____________________________________________________________________________________________________________
+      // SizedBox(width: 8),
+              // Container(
+              //   height: 70,
+              //   width: 70,
+              //   decoration: BoxDecoration(
+              //     color: Colors.white,
+              //     image: DecorationImage(
+              //       image: AssetImage("lib/images/logo.png"),
+              //       fit: BoxFit.cover,
+              //     ),
+              //     shape: BoxShape.circle,
+              //   ),
+              // ),
+
+              // Expanded(
+              //   child: InkWell(
+              // onTap: () {
+              //   showSearch(
+              //     context: context,
+              //     delegate: DataSearch(),
+              //   );
+              //     },
+              //     child: Container(
+              //       height: 40,
+              //       padding: EdgeInsets.symmetric(horizontal: 10),
+              //       decoration: BoxDecoration(
+              //         color: Colors.grey[300],
+              //         borderRadius: BorderRadius.circular(8),
+              //       ),
+              //       child: Align(
+              //         alignment: Alignment.centerLeft,
+              //         child: Container(
+              //           height: 30,
+              //           width: 30,
+              //           decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.circular(40),
+              //             gradient: LinearGradient(
+              //               colors: [
+              //                 Colors.black38,
+              //                 Color(0x36ffffff),
+              //               ],
+              //             ),
+              //           ),
+              //           child: Icon(
+              //             Icons.search,
+              //             color: Colors.white,
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),

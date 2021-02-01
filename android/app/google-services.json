@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "783787627097",
+    "project_id": "vanillia-2e74e",
+    "storage_bucket": "vanillia-2e74e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:783787627097:android:8d74f1e13a3418c6ef5748",
+        "android_client_info": {
+          "package_name": "com.example.vanillia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "783787627097-qfd50rg6fomsv29s4ig0sc68qhimcbq5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBV5TbZEz6NGMkiOsEg51LIPM3bXzQwq8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "783787627097-qfd50rg6fomsv29s4ig0sc68qhimcbq5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
