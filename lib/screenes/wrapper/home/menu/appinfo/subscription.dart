@@ -91,7 +91,6 @@ class _SubscriptionState extends State<Subscription> {
             color: Colors.white,
           ),
         ),
-        80,
       ),
       body: SingleChildScrollView(
         child: Column(

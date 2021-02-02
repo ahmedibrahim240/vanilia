@@ -45,7 +45,6 @@ class _SettingsState extends State<Settings> {
             color: Colors.white,
           ),
         ),
-        80,
       ),
       body: Container(
         padding: EdgeInsets.only(left: 16, right: 16, top: 30),

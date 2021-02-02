@@ -103,7 +103,6 @@ class _ChatRoomState extends State<ChatRoom> {
             ),
           ],
         ),
-        80,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

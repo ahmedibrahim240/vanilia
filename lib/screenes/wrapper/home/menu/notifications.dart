@@ -27,31 +27,20 @@ class _NotificationsState extends State<Notifications> {
             color: Colors.white,
           ),
         ),
-        80,
       ),
-      body: ListView(
-        shrinkWrap: true,
-        children: [
-          Container(
-            height: height,
-            width: width,
-            child: ListView.separated(
-              itemCount: items.length,
-              scrollDirection: Axis.vertical,
-              separatorBuilder: (context, index) => Divider(),
-              itemBuilder: (context, index) {
-                final item = items[index];
+      body: ListView.separated(
+        itemCount: items.length,
+        scrollDirection: Axis.vertical,
+        separatorBuilder: (context, index) => Divider(),
+        itemBuilder: (context, index) {
+          final item = items[index];
 
-                return DismissibleWidget(
-                  item: item,
-                  child: buildListTile(item, width, height),
-                  onDismissed: (direction) =>
-                      dismissItem(context, index, direction),
-                );
-              },
-            ),
-          ),
-        ],
+          return DismissibleWidget(
+            item: item,
+            child: buildListTile(item, width, height),
+            onDismissed: (direction) => dismissItem(context, index, direction),
+          );
+        },
       ),
     );
   }

@@ -3,12 +3,14 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:vanillia/constants/constans.dart';
 import 'package:vanillia/constants/themes.dart';
-import 'package:vanillia/localization/language_constants.dart';
+// import 'package:vanillia/localization/language_constants.dart';
 import 'package:vanillia/model/data.dart';
 import 'package:vanillia/model/user.dart';
 import 'package:vanillia/screenes/search.dart';
 import 'package:vanillia/screenes/wrapper/home/menu/menu.dart';
 import 'package:vanillia/screenes/wrapper/home/postPage.dart';
+
+import '../../../cityPage.dart';
 
 class SectionsPage extends StatefulWidget {
   final Data2 listDate;
@@ -45,37 +47,16 @@ class _SectionsPageState extends State<SectionsPage> {
         backgroundColor: Color(0xfff880e4f),
       ),
       key: scaffoldKey,
-      drawer: ClipRRect(
-        borderRadius: (UserData.appLang == 'ar_EG')
-            ? BorderRadius.only(
-                topLeft: Radius.circular(100),
-                bottomLeft: Radius.circular(100),
-              )
-            : BorderRadius.only(
-                topRight: Radius.circular(100),
-                bottomRight: Radius.circular(100),
-              ),
-        child: Drawer(
-          child: Menu(),
-        ),
+      drawer: Drawer(
+        child: Menu(),
       ),
-      body: ListView(
-        shrinkWrap: true,
+      body: Column(
         children: [
           _appBaer(),
+          _gridViewCount(),
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height - 200,
-            child: Column(
-              children: [
-                SizedBox(height: 5),
-                _gridViewCount(),
-              ],
-            ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height - 250,
+            height: MediaQuery.of(context).size.height - 360,
             child: ListView.builder(
               shrinkWrap: true,
               primary: true,
@@ -98,46 +79,56 @@ class _SectionsPageState extends State<SectionsPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            height: 70,
-                            width: (MediaQuery.of(context).size.width) * .2,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image:
-                                    NetworkImage(widget.listDate.imgeList[i]),
-                                fit: BoxFit.cover,
-                              ),
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Colors.transparent,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 3),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Row(
                             children: [
-                              SmoothStarRating(
-                                rating: rating,
-                                size: 20,
-                                isReadOnly: true,
-                                filledIconData: Icons.star,
-                                color: Colors.yellow[700],
-                                halfFilledIconData: Icons.star_half,
-                                borderColor: Colors.yellow[900],
-                                defaultIconData: Icons.star_border,
-                                starCount: 5,
-                                allowHalfRating: true,
-                                spacing: 2.0,
+                              Container(
+                                height: 70,
+                                width: (MediaQuery.of(context).size.width) * .2,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                        widget.listDate.imgeList[i]),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.transparent,
+                                  ),
+                                ),
                               ),
-                              Text(
-                                'الأستاذة :ندي',
-                                style: AppTheme.heading,
+                              SizedBox(width: 3),
+                              Container(
+                                width: 140,
+                                child: RichText(
+                                  textDirection: TextDirection.rtl,
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text:
+                                            'الأستاذة :ندي ندي ندي ندي ندي ندي ندي ندي ندي ندي',
+                                        style: AppTheme.heading
+                                            .copyWith(fontSize: 10),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ],
+                          ),
+                          SmoothStarRating(
+                            rating: rating,
+                            size: 20,
+                            isReadOnly: true,
+                            filledIconData: Icons.star,
+                            color: Colors.yellow[700],
+                            halfFilledIconData: Icons.star_half,
+                            borderColor: Colors.yellow[900],
+                            defaultIconData: Icons.star_border,
+                            starCount: 5,
+                            allowHalfRating: true,
+                            spacing: 2.0,
                           ),
                         ],
                       ),
@@ -156,7 +147,7 @@ class _SectionsPageState extends State<SectionsPage> {
     var size = MediaQuery.of(context).size;
 
     /*24 is for notification bar on Android*/
-    final double itemHeight = (size.height - 100) / 2.5;
+    final double itemHeight = (size.height - 350) / 2.5;
     final double itemWidth = size.width / 2;
     return GridView.count(
       crossAxisCount: 2,
@@ -169,7 +160,7 @@ class _SectionsPageState extends State<SectionsPage> {
         4,
         (index) {
           return Padding(
-            padding: const EdgeInsets.all(1.0),
+            padding: const EdgeInsets.all(0.0),
             child: InkWell(
               onTap: () {
                 Navigator.of(context).push(
@@ -184,9 +175,6 @@ class _SectionsPageState extends State<SectionsPage> {
               },
               child: Card(
                 elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                ),
                 child: Column(
                   crossAxisAlignment: (UserData.appLang == 'ar_EG')
                       ? CrossAxisAlignment.start
@@ -196,12 +184,8 @@ class _SectionsPageState extends State<SectionsPage> {
                       tag: 'imgUrl-${widget.listDate.imgeList[index]}',
                       child: Container(
                         width: MediaQuery.of(context).size.width,
-                        height: (MediaQuery.of(context).size.height) * .15,
+                        height: (MediaQuery.of(context).size.height) * .12,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(18.0),
-                            topRight: Radius.circular(18.0),
-                          ),
                           image: DecorationImage(
                             image:
                                 NetworkImage(widget.listDate.imgeList[index]),
@@ -210,21 +194,60 @@ class _SectionsPageState extends State<SectionsPage> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 3, left: 10),
-                          child: Align(
-                            alignment: Alignment.topLeft,
-                            child: SmoothStarRating(
-                              rating: rating,
-                              size: 20,
-                              isReadOnly: true,
-                              filledIconData: Icons.star,
-                              color: Color(0xfff880e4f),
-                              halfFilledIconData: Icons.star_half,
-                              borderColor: Color(0xfff880e4f),
-                              defaultIconData: Icons.star_border,
-                              starCount: 5,
-                              allowHalfRating: true,
-                              spacing: 2.0,
-                            ),
+                          child: Stack(
+                            children: [
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: SmoothStarRating(
+                                  rating: rating,
+                                  size: 20,
+                                  isReadOnly: true,
+                                  filledIconData: Icons.star,
+                                  color: Colors.yellow[700],
+                                  halfFilledIconData: Icons.star_half,
+                                  borderColor: Colors.yellow[900],
+                                  defaultIconData: Icons.star_border,
+                                  starCount: 5,
+                                  allowHalfRating: true,
+                                  spacing: 2.0,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: InkWell(
+                                    onTap: () {
+                                      callNumber(widget.listDate.phoneNamber);
+                                    },
+                                    child: Container(
+                                      height: 30,
+                                      width: 30,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: customColor,
+                                      ),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.call,
+                                          color: Colors.white,
+                                          size: 25,
+                                        ),
+
+                                        //  IconButton(
+                                        //   onPressed: () =>
+                                        //       callNumber(widget.listDate.phoneNamber),
+                                        // icon: Icon(
+                                        //   Icons.call,
+                                        //   color: Colors.white,
+                                        // ),
+                                        // ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -256,118 +279,6 @@ class _SectionsPageState extends State<SectionsPage> {
                                     ),
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: () {},
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        (UserData.appLang == 'ar_EG')
-                                            ? MainAxisAlignment.start
-                                            : MainAxisAlignment.end,
-                                    children: (UserData.appLang == 'ar_EG')
-                                        ? [
-                                            Icon(
-                                              Icons.location_pin,
-                                              color: Color(0xfff880e4f),
-                                              size: 20,
-                                            ),
-                                            Text(
-                                              'المونصوره',
-                                              style: AppTheme.subHeading,
-                                            ),
-                                          ]
-                                        : [
-                                            Text(
-                                              'المونصوره',
-                                              style: AppTheme.subHeading,
-                                            ),
-                                            Icon(
-                                              Icons.location_pin,
-                                              color: Color(0xfff880e4f),
-                                              size: 20,
-                                            ),
-                                          ],
-                                  ),
-                                ),
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: (MediaQuery.of(context).size.height) *
-                                      .044,
-                                  child: RichText(
-                                    textDirection: TextDirection.rtl,
-                                    text: TextSpan(
-                                      children: [
-                                        TextSpan(
-                                          text: widget.listDate.contant
-                                              .substring(0, 72),
-                                          style: AppTheme.subHeading.copyWith(
-                                            fontSize: 8,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 3),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width:
-                                      (MediaQuery.of(context).size.width) * .2,
-                                  height: 35,
-                                  child: FlatButton(
-                                    onPressed: () =>
-                                        callNumber(widget.listDate.phoneNamber),
-                                    color: Color(0xfff880e4f),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      side:
-                                          BorderSide(color: Color(0xfff880e4f)),
-                                    ),
-                                    child: Icon(
-                                      Icons.call,
-                                      color: Colors.white,
-                                      size: 15,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 3),
-                                Container(
-                                  width:
-                                      (MediaQuery.of(context).size.width) * .2,
-                                  height: 35,
-                                  child: FlatButton(
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (_) => PostPage(
-                                            imgUrl:
-                                                widget.listDate.imgeList[index],
-                                            title: widget.listDate.title +
-                                                '$index',
-                                            phoneNumber:
-                                                widget.listDate.phoneNamber,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      side:
-                                          BorderSide(color: Color(0xfff880e4f)),
-                                    ),
-                                    child: Text(
-                                      getTranslated(context, 'more'),
-                                      style: AppTheme.heading
-                                          .copyWith(color: Color(0xfff880e4f)),
-                                    ),
-                                  ),
-                                ),
                               ],
                             ),
                           ),
@@ -394,30 +305,56 @@ class _SectionsPageState extends State<SectionsPage> {
       padding: EdgeInsets.symmetric(vertical: 2, horizontal: 15),
       decoration: BoxDecoration(
         color: Color(0xfff880e4f),
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(15),
-          bottomRight: Radius.circular(15),
-        ),
       ),
       child: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              InkWell(
-                onTap: () => Navigator.of(context).pop(),
-                child: Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    widget.listDate.title,
+                    style: AppTheme.heading.copyWith(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+              FlatButton.icon(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => CityPage(),
+                    ),
+                  );
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  side: BorderSide(
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              SizedBox(
-                width: 120,
-              ),
-              Text(
-                getTranslated(context, 'vanillia'),
-                style: AppTheme.heading.copyWith(
+                icon: Icon(
+                  Icons.location_pin,
                   color: Colors.white,
-                  fontSize: 14,
+                  size: 15,
+                ),
+                label: Text(
+                  'المنصوره',
+                  style: AppTheme.heading.copyWith(
+                    color: Colors.white,
+                    fontSize: 10,
+                  ),
                 ),
               ),
             ],
@@ -450,26 +387,21 @@ class _SectionsPageState extends State<SectionsPage> {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  CityList(),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () => _showSettingsPanel(),
-                      child: Container(
-                        height: 25,
-                        width: 25,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('lib/images/filter.png'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  onTap: () => _showSettingsPanel(),
+                  child: Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('lib/images/filter.png'),
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
             ],
           ),
@@ -489,10 +421,6 @@ class _SectionsPageState extends State<SectionsPage> {
         return Container(
           decoration: BoxDecoration(
             gradient: AppTheme.containerBackground,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(35.0),
-              topRight: Radius.circular(35.0),
-            ),
           ),
           child: ListView(
             shrinkWrap: true,
@@ -539,7 +467,7 @@ class _SectionsPageState extends State<SectionsPage> {
                 groupValue: selectedRadioTile,
                 activeColor: Colors.white,
                 title: Text(
-                  "التقييم",
+                  "الاعلي تقيما",
                   textDirection: TextDirection.rtl,
                   style: AppTheme.heading.copyWith(color: Colors.white),
                 ),
@@ -567,49 +495,7 @@ class _SectionsPageState extends State<SectionsPage> {
                 groupValue: selectedRadioTile,
                 activeColor: Colors.white,
                 title: Text(
-                  "الاعلي سعرا",
-                  textDirection: TextDirection.rtl,
-                  style: AppTheme.heading.copyWith(color: Colors.white),
-                ),
-                onChanged: (val) {
-                  setSelectedRadioTile(val);
-                  Navigator.of(context).pop();
-                },
-              ),
-              RadioListTile(
-                value: 3,
-                groupValue: selectedRadioTile,
-                activeColor: Colors.white,
-                title: Text(
-                  "اقل سعرا",
-                  textDirection: TextDirection.rtl,
-                  style: AppTheme.heading.copyWith(color: Colors.white),
-                ),
-                onChanged: (val) {
-                  setSelectedRadioTile(val);
-                  Navigator.of(context).pop();
-                },
-              ),
-              RadioListTile(
-                value: 4,
-                groupValue: selectedRadioTile,
-                activeColor: Colors.white,
-                title: Text(
-                  "الاقرب",
-                  textDirection: TextDirection.rtl,
-                  style: AppTheme.heading.copyWith(color: Colors.white),
-                ),
-                onChanged: (val) {
-                  setSelectedRadioTile(val);
-                  Navigator.of(context).pop();
-                },
-              ),
-              RadioListTile(
-                value: 5,
-                groupValue: selectedRadioTile,
-                activeColor: Colors.white,
-                title: Text(
-                  "اجدد التحديثات",
+                  "الاحدث",
                   textDirection: TextDirection.rtl,
                   style: AppTheme.heading.copyWith(color: Colors.white),
                 ),

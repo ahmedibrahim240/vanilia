@@ -20,7 +20,6 @@ class _ContactSupportState extends State<ContactSupport> {
             color: Colors.white,
           ),
         ),
-        80,
       ),
       body: SingleChildScrollView(
         child: Column(

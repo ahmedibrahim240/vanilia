@@ -39,7 +39,6 @@ class _AppInfoState extends State<AppInfo> {
             color: Colors.white,
           ),
         ),
-        80,
       ),
       body: SingleChildScrollView(
         child: Column(

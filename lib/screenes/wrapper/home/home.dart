@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vanillia/cityPage.dart';
 import 'package:vanillia/constants/constans.dart';
 import 'package:vanillia/constants/themes.dart';
 import 'package:vanillia/localization/language_constants.dart';
@@ -52,6 +53,26 @@ class _HomeState extends State<Home> {
           homeAppBarr(),
           SizedBox(height: 5),
           First(),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 80,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(
+                child: Text(
+                  'اعلان',
+                  style: AppTheme.heading.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -76,11 +97,31 @@ class _HomeState extends State<Home> {
                   fontSize: 14,
                 ),
               ),
-              Text(
-                'المنصوره',
-                style: AppTheme.heading.copyWith(
+              FlatButton.icon(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => CityPage(),
+                    ),
+                  );
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  side: BorderSide(
+                    color: Colors.white,
+                  ),
+                ),
+                icon: Icon(
+                  Icons.location_pin,
                   color: Colors.white,
-                  fontSize: 14,
+                  size: 15,
+                ),
+                label: Text(
+                  'المنصوره',
+                  style: AppTheme.heading.copyWith(
+                    color: Colors.white,
+                    fontSize: 10,
+                  ),
                 ),
               ),
             ],

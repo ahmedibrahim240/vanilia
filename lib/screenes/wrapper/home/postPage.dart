@@ -4,10 +4,10 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:vanillia/constants/constans.dart';
 import 'package:vanillia/constants/themes.dart';
 import 'package:vanillia/localization/language_constants.dart';
-import 'package:vanillia/model/user.dart';
 import 'package:vanillia/screenes/wrapper/home/menu/menu.dart';
 import 'package:vanillia/screenes/wrapper/home/videoscreens.dart';
 
+import '../../../cityPage.dart';
 import '../../search.dart';
 
 class PostPage extends StatefulWidget {
@@ -37,19 +37,8 @@ class _PostPageState extends State<PostPage> {
         elevation: 0,
       ),
       key: scaffoldKey,
-      drawer: ClipRRect(
-        borderRadius: (UserData.appLang == 'ar_EG')
-            ? BorderRadius.only(
-                topLeft: Radius.circular(100),
-                bottomLeft: Radius.circular(100),
-              )
-            : BorderRadius.only(
-                topRight: Radius.circular(100),
-                bottomRight: Radius.circular(100),
-              ),
-        child: Drawer(
-          child: Menu(),
-        ),
+      drawer: Drawer(
+        child: Menu(),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -291,7 +280,7 @@ class _PostPageState extends State<PostPage> {
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: (MediaQuery.of(context).size.height) - 200,
-                    child: _gridViewCount(),
+                    child: _ratingList(),
                   ),
                 ],
               ),
@@ -308,30 +297,56 @@ class _PostPageState extends State<PostPage> {
       padding: EdgeInsets.symmetric(vertical: 2, horizontal: 15),
       decoration: BoxDecoration(
         color: Color(0xfff880e4f),
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(15),
-          bottomRight: Radius.circular(15),
-        ),
       ),
       child: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              InkWell(
-                onTap: () => Navigator.of(context).pop(),
-                child: Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    getTranslated(context, 'vanillia'),
+                    style: AppTheme.heading.copyWith(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+              FlatButton.icon(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => CityPage(),
+                    ),
+                  );
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  side: BorderSide(
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              SizedBox(
-                width: 120,
-              ),
-              Text(
-                getTranslated(context, 'vanillia'),
-                style: AppTheme.heading.copyWith(
+                icon: Icon(
+                  Icons.location_pin,
                   color: Colors.white,
-                  fontSize: 14,
+                  size: 15,
+                ),
+                label: Text(
+                  'المنصوره',
+                  style: AppTheme.heading.copyWith(
+                    color: Colors.white,
+                    fontSize: 10,
+                  ),
                 ),
               ),
             ],
@@ -364,7 +379,6 @@ class _PostPageState extends State<PostPage> {
                   ),
                 ],
               ),
-              CityList(),
             ],
           ),
         ],
@@ -376,87 +390,67 @@ class _PostPageState extends State<PostPage> {
     await FlutterPhoneDirectCaller.callNumber(number);
   }
 
-  _gridViewCount() {
-    return GridView.count(
-      crossAxisCount: 2,
-      crossAxisSpacing: 2.0,
-      mainAxisSpacing: 2.0,
+  _ratingList() {
+    return ListView.builder(
       shrinkWrap: true,
-      children: List.generate(
-        10,
-        (index) {
-          return Padding(
-            padding: const EdgeInsets.all(1.0),
-            child: Card(
-              // color:  Color(0xfff880e4f),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-              ),
-              elevation: 4,
-              child: Container(
+      primary: true,
+      itemCount: 10,
+      itemBuilder: (context, i) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Container(
+                height: 70,
+                width: (MediaQuery.of(context).size.width) * .2,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18),
-                  gradient: AppTheme.containerBackground,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Center(
-                        child: Container(
-                          height: 60,
-                          width: (MediaQuery.of(context).size.width) * .2,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(widget.imgUrl),
-                              fit: BoxFit.cover,
-                            ),
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Colors.transparent,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Center(
-                        child: SmoothStarRating(
-                          rating: 4,
-                          size: 15,
-                          isReadOnly: true,
-                          filledIconData: Icons.star,
-                          color: Colors.yellow[700],
-                          halfFilledIconData: Icons.star_half,
-                          borderColor: Colors.yellow[900],
-                          defaultIconData: Icons.star_border,
-                          starCount: 5,
-                          allowHalfRating: true,
-                          spacing: 2.0,
-                        ),
-                      ),
-                      Center(
-                        child: Text(
-                          widget.title,
-                          textDirection: TextDirection.rtl,
-                          style: AppTheme.heading.copyWith(color: Colors.white),
-                        ),
-                      ),
-                      Text(
-                        'لوريم إيبسوم هو ببساطة نصشكلي يستخدم في صناعة الطباعة والتنضيد. كان النصالوهمي',
-                        textDirection: TextDirection.rtl,
-                        style: AppTheme.subHeading.copyWith(
-                          color: Colors.white,
-                          fontSize: 8,
-                        ),
-                      )
-                    ],
+                  image: DecorationImage(
+                    image: NetworkImage(widget.imgUrl),
+                    fit: BoxFit.cover,
+                  ),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.transparent,
                   ),
                 ),
               ),
-            ),
-          );
-        },
-      ),
+              SizedBox(width: 3),
+              Column(
+                children: [
+                  SmoothStarRating(
+                    rating: rating,
+                    size: 20,
+                    isReadOnly: true,
+                    filledIconData: Icons.star,
+                    color: Colors.yellow[700],
+                    halfFilledIconData: Icons.star_half,
+                    borderColor: Colors.yellow[900],
+                    defaultIconData: Icons.star_border,
+                    starCount: 5,
+                    allowHalfRating: true,
+                    spacing: 2.0,
+                  ),
+                  Container(
+                    width: 240,
+                    child: RichText(
+                      textDirection: TextDirection.rtl,
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text:
+                                'الأستاذة :ندي ندي ندي ندي ندي ندي ندي ندي ندي ندي',
+                            style: AppTheme.heading.copyWith(fontSize: 10),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

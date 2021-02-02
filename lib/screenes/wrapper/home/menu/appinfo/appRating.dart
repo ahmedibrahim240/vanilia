@@ -22,7 +22,6 @@ class _AppRatingState extends State<AppRating> {
             color: Colors.white,
           ),
         ),
-        80,
       ),
       body: ListView(
         shrinkWrap: true,

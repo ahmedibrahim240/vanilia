@@ -270,15 +270,10 @@ Future<void> launchInBrowser(String url) async {
   }
 }
 
-PreferredSizeWidget customAppBar(Widget title, double height) => AppBar(
+PreferredSizeWidget customAppBar(Widget title) => AppBar(
       centerTitle: true,
-      toolbarHeight: height,
+      toolbarHeight: 50,
       backgroundColor: Color(0xfff880e4f),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(15),
-        ),
-      ),
       title: title,
     );
 

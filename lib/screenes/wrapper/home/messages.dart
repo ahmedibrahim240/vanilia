@@ -83,7 +83,6 @@ class _MessagesState extends State<Messages> {
             color: Colors.white,
           ),
         ),
-        80,
       ),
       body: Container(
         width: width,

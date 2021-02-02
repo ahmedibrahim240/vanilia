@@ -6,6 +6,7 @@ import 'package:vanillia/localization/language_constants.dart';
 import 'package:vanillia/model/Chat.dart';
 import 'package:vanillia/model/data.dart';
 import 'package:vanillia/screenes/wrapper/home/menu/offersPage.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class Offers extends StatefulWidget {
   @override
@@ -16,8 +17,6 @@ class _OffersState extends State<Offers> {
   List<Chat> items = List.of(Data.chats);
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: customAppBar(
@@ -27,97 +26,37 @@ class _OffersState extends State<Offers> {
             color: Colors.white,
           ),
         ),
-        80,
       ),
-      body: ListView(
-        shrinkWrap: true,
-        children: [
-          Container(
-            height: height - 100,
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: items.length,
-              itemBuilder: (context, i) {
-                return Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => OffersPage(
-                              item: items[i],
-                            ),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        height: height * .25,
-                        width: width,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topRight,
-                            end: Alignment.bottomLeft,
-                            colors: [
-                              Colors.yellow[800],
-                              Colors.yellow[600],
-                              Colors.yellow[800],
-                            ],
-                          ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Align(
-                              alignment: Alignment.topRight,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  width: width * .6,
-                                  child: RichText(
-                                    textDirection: TextDirection.rtl,
-                                    text: TextSpan(
-                                      children: [
-                                        TextSpan(
-                                          text: items[i].username,
-                                          style: AppTheme.heading
-                                              .copyWith(fontSize: 13),
-                                        ),
-                                        TextSpan(
-                                          text: '\n',
-                                        ),
-                                        TextSpan(
-                                          text: items[i].message,
-                                          style: AppTheme.subHeading
-                                              .copyWith(fontSize: 13),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: 100,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage('lib/images/person2.png'),
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: StaggeredGridView.countBuilder(
+          crossAxisCount: 4,
+          itemCount: items.length,
+          itemBuilder: (BuildContext context, int i) {
+            return InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => OffersPage(
+                      item: items[i],
                     ),
-                    SizedBox(height: 10),
-                  ],
+                  ),
                 );
               },
-            ),
-          ),
-        ],
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(items[i].imgUrl),
+                  ),
+                ),
+              ),
+            );
+          },
+          staggeredTileBuilder: (int index) =>
+              new StaggeredTile.count(2, index.isEven ? 2 : 2),
+          mainAxisSpacing: 4.0,
+          crossAxisSpacing: 4.0,
+        ),
       ),
     );
   }
