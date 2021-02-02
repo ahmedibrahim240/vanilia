@@ -338,12 +338,12 @@ class _SectionsPageState extends State<SectionsPage> {
                     ),
                   );
                 },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  side: BorderSide(
-                    color: Colors.white,
-                  ),
-                ),
+                // shape: RoundedRectangleBorder(
+                //   borderRadius: BorderRadius.circular(30),
+                //   side: BorderSide(
+                //     color: Colors.white,
+                //   ),
+                // ),
                 icon: Icon(
                   Icons.location_pin,
                   color: Colors.white,

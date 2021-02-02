@@ -81,11 +81,12 @@ class _HomeState extends State<Home> {
   Widget homeAppBarr() {
     return Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical: 2, horizontal: 15),
+      padding: EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         color: Color(0xfff880e4f),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -94,7 +95,7 @@ class _HomeState extends State<Home> {
                 getTranslated(context, 'vanillia'),
                 style: AppTheme.heading.copyWith(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: 10,
                 ),
               ),
               FlatButton.icon(
@@ -105,12 +106,12 @@ class _HomeState extends State<Home> {
                     ),
                   );
                 },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  side: BorderSide(
-                    color: Colors.white,
-                  ),
-                ),
+                // shape: RoundedRectangleBorder(
+                //   borderRadius: BorderRadius.circular(30),
+                //   side: BorderSide(
+                //     color: Colors.white,
+                //   ),
+                // ),
                 icon: Icon(
                   Icons.location_pin,
                   color: Colors.white,
@@ -136,6 +137,7 @@ class _HomeState extends State<Home> {
                     icon: Icon(
                       Icons.menu,
                       color: Colors.white,
+                      
                     ),
                     onPressed: () => scaffoldKey.currentState.openDrawer(),
                   ),
@@ -149,6 +151,7 @@ class _HomeState extends State<Home> {
                     child: Icon(
                       Icons.search,
                       color: Colors.white,
+                      
                     ),
                   ),
                 ],
