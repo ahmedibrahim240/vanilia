@@ -137,7 +137,6 @@ class _HomeState extends State<Home> {
                     icon: Icon(
                       Icons.menu,
                       color: Colors.white,
-                      
                     ),
                     onPressed: () => scaffoldKey.currentState.openDrawer(),
                   ),
@@ -151,7 +150,6 @@ class _HomeState extends State<Home> {
                     child: Icon(
                       Icons.search,
                       color: Colors.white,
-                      
                     ),
                   ),
                 ],
