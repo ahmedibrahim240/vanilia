@@ -257,6 +257,16 @@ class DismissibleWidget<T> extends StatelessWidget {
       );
 }
 
+Future<void> launchMessageToWhatsApp(
+    {@required String phoneNum, String massage}) async {
+  String url = 'whatsapp://send?phone=$phoneNum&text=$massage';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
 Future<void> launchInBrowser(String url) async {
   if (await canLaunch(url)) {
     await launch(

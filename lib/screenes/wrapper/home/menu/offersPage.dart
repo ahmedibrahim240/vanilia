@@ -100,7 +100,10 @@ class _OffersPageState extends State<OffersPage> {
                       ],
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        launchMessageToWhatsApp(
+                            phoneNum: '+201551016887', massage: 'hi');
+                      },
                       child: Row(
                         children: [
                           Text(
