@@ -3,9 +3,9 @@ import 'package:vanillia/constants/constans.dart';
 import 'package:vanillia/constants/themes.dart';
 import 'package:vanillia/localization/language_constants.dart';
 import 'package:vanillia/model/Chat.dart';
-import 'package:vanillia/model/user.dart';
 import 'package:vanillia/screenes/wrapper/home/menu/menu.dart';
 
+import '../../../../cityPage.dart';
 import '../../../search.dart';
 
 class OffersPage extends StatefulWidget {
@@ -29,19 +29,8 @@ class _OffersPageState extends State<OffersPage> {
         elevation: 0.0,
       ),
       key: scaffoldKey,
-      drawer: ClipRRect(
-        borderRadius: (UserData.appLang == 'ar_EG')
-            ? BorderRadius.only(
-                topLeft: Radius.circular(100),
-                bottomLeft: Radius.circular(100),
-              )
-            : BorderRadius.only(
-                topRight: Radius.circular(100),
-                bottomRight: Radius.circular(100),
-              ),
-        child: Drawer(
-          child: Menu(),
-        ),
+      drawer: Drawer(
+        child: Menu(),
       ),
       body: ListView(
         children: [
@@ -108,12 +97,12 @@ class _OffersPageState extends State<OffersPage> {
                         children: [
                           Text(
                             'حجز',
-                            style:
-                                AppTheme.heading.copyWith(color: customColor),
+                            style: AppTheme.heading
+                                .copyWith(color: customColor, fontSize: 14),
                           ),
                           SizedBox(width: 10),
                           CircleAvatar(
-                            maxRadius: 10,
+                            maxRadius: 15,
                             backgroundImage:
                                 AssetImage('lib/images/whatsapp.png'),
                           ),
@@ -261,37 +250,61 @@ class _OffersPageState extends State<OffersPage> {
       padding: EdgeInsets.symmetric(vertical: 2, horizontal: 15),
       decoration: BoxDecoration(
         color: Color(0xfff880e4f),
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(15),
-          bottomRight: Radius.circular(15),
-        ),
       ),
       child: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              InkWell(
-                onTap: () => Navigator.of(context).pop(),
-                child: Icon(
-                  Icons.arrow_back,
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    getTranslated(context, 'vanillia'),
+                    style: AppTheme.heading.copyWith(
+                      color: Colors.white,
+                      fontSize: 10,
+                    ),
+                  ),
+                ],
+              ),
+              FlatButton.icon(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => CityPage(),
+                    ),
+                  );
+                },
+                // shape: RoundedRectangleBorder(
+                //   borderRadius: BorderRadius.circular(30),
+                //   side: BorderSide(
+                //     color: Colors.white,
+                //   ),
+                // ),
+                icon: Icon(
+                  Icons.location_pin,
                   color: Colors.white,
+                  size: 15,
                 ),
-              ),
-              SizedBox(
-                width: 120,
-              ),
-              Text(
-                getTranslated(context, 'vanillia'),
-                style: AppTheme.heading.copyWith(
-                  color: Colors.white,
-                  fontSize: 14,
+                label: Text(
+                  'المنصوره',
+                  style: AppTheme.heading.copyWith(
+                    color: Colors.white,
+                    fontSize: 10,
+                  ),
                 ),
               ),
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Row(
                 children: [
@@ -317,7 +330,6 @@ class _OffersPageState extends State<OffersPage> {
                   ),
                 ],
               ),
-              CityList(),
             ],
           ),
         ],
