@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:vanillia/constants/constans.dart';
 import 'package:vanillia/constants/themes.dart';
 import 'package:vanillia/localization/language_constants.dart';
@@ -93,7 +92,10 @@ class _OffersPageState extends State<OffersPage> {
                       onTap: () {
                         print('whatsAppp');
                         launchMessageToWhatsApp(
-                            phoneNum: '+201551016887', massage: 'hi');
+                          phoneNum: '+201551016887',
+                          massage: 'hi',
+                          context: context,
+                        );
                       },
                       child: Row(
                         children: [
@@ -336,52 +338,6 @@ class _OffersPageState extends State<OffersPage> {
           ),
         ],
       ),
-    );
-  }
-
-  Future<void> launchMessageToWhatsApp(
-      {@required String phoneNum, String massage}) async {
-    String url = 'whatsapp://send?phone=$phoneNum&text=$massage';
-    try {
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        showMyDialog();
-      }
-    } catch (e) {
-      print('erorr is: ' + e.toString());
-    }
-  }
-
-  Future<void> showMyDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            getTranslated(context, 'whatsapp_error_title'),
-            style: AppTheme.subHeading,
-          ),
-          content: Text(
-            getTranslated(context, 'whatsapp_error_message'),
-            style: AppTheme.subHeading,
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text(
-                getTranslated(context, 'cancel'),
-                style: AppTheme.heading.copyWith(
-                  color: customColor,
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }

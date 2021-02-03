@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vanillia/constants/themes.dart';
+import 'package:vanillia/localization/language_constants.dart';
 import 'package:vanillia/model/user.dart';
 
 const customColor = Color(0xfff880e4f);
@@ -276,6 +277,54 @@ PreferredSizeWidget customAppBar(Widget title) => AppBar(
       backgroundColor: Color(0xfff880e4f),
       title: title,
     );
+Future<void> launchMessageToWhatsApp({
+  @required String phoneNum,
+  String massage,
+  BuildContext context,
+}) async {
+  String url = 'whatsapp://send?phone=$phoneNum&text=$massage';
+  try {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      showMyDialog(context);
+    }
+  } catch (e) {
+    print('erorr is: ' + e.toString());
+  }
+}
+
+Future<void> showMyDialog(BuildContext context) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(
+          getTranslated(context, 'whatsapp_error_title'),
+          style: AppTheme.subHeading,
+        ),
+        content: Text(
+          getTranslated(context, 'whatsapp_error_message'),
+          style: AppTheme.subHeading,
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: Text(
+              getTranslated(context, 'cancel'),
+              style: AppTheme.heading.copyWith(
+                color: customColor,
+              ),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 
 class CityList extends StatefulWidget {
   @override
