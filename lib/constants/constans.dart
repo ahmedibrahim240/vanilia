@@ -282,13 +282,14 @@ Future<void> launchMessageToWhatsApp({
   String massage,
   BuildContext context,
 }) async {
-  String url = 'whatsapp://send?phone=$phoneNum&text=$massage';
+  String url = 'https://wa.me/$phoneNum?text=$massage';
   try {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      showMyDialog(context);
-    }
+    await launch(url);
+    // if (await canLaunch(url)) {
+
+    // } else {
+    //   showMyDialog(context);
+    // }
   } catch (e) {
     print('erorr is: ' + e.toString());
   }
