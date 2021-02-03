@@ -33,6 +33,8 @@
     "resend": "Resend!",
     "profile": "profile",
     "cancel": "Cancel",
+    "whatsapp_error_message": "WhatsApp must be downloaded first",
+    "whatsapp_error_title": "can't find whatsapp",
     "offers": "Offers",
     "settings": "Settings",
     "messages":"Messages",

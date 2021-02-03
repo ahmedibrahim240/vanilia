@@ -5,6 +5,9 @@
     "Change_password": "تغير كلمة السر",
     "deleting_done": "تم الحذف",
     "vanillia":"فانيلا",
+    "whatsapp_error_message": "يجب تحميل واتس اب اولا",
+    "whatsapp_error_title": "لا يمكن العثور على واتس اب",
+
 
     "start":"ابدا",
     "welcome":"مرحبا بك",

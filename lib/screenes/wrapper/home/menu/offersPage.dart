@@ -356,20 +356,25 @@ class _OffersPageState extends State<OffersPage> {
   Future<void> showMyDialog() async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'can not find whatsapp',
+            getTranslated(context, 'whatsapp_error_title'),
             style: AppTheme.subHeading,
           ),
           content: Text(
-            'WhatsApp must be downloaded first',
+            getTranslated(context, 'whatsapp_error_message'),
             style: AppTheme.subHeading,
           ),
           actions: <Widget>[
             TextButton(
-              child: Text(getTranslated(context, 'cancel')),
+              child: Text(
+                getTranslated(context, 'cancel'),
+                style: AppTheme.heading.copyWith(
+                  color: customColor,
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
